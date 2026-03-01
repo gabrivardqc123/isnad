@@ -208,6 +208,24 @@ export const DANGEROUS_PATTERNS: Pattern[] = [
     category: 'obfuscation'
   },
 
+  // === MEDIUM: Obfuscation techniques ===
+  {
+    id: 'OBFUSC_STRING_REVERSAL',
+    name: 'String Reversal Obfuscation',
+    description: 'Reversing strings to hide malicious payloads',
+    severity: 'medium',
+    pattern: /\.split\s*\(\s*['"`][]['"`]\s*\)\s*\.?\s*reverse\s*\(\s*\)\s*\.?\s*join\s*\(\s*['"`][]['"`]\s*\)/gi,
+    category: 'obfuscation'
+  },
+  {
+    id: 'OBFUSC_CONCATENATION',
+    name: 'Suspicious String Concatenation',
+    description: 'Building strings via concatenation, possibly with env vars',
+    severity: 'medium',
+    pattern: /(process\.env\w*)\s*[+]\s*['"`][^'`"]+['"`]\s*[+]/gi,
+    category: 'obfuscation'
+  },
+
   // === LOW: Suspicious but context-dependent ===
   {
     id: 'SUSP_CRYPTO_MINING',

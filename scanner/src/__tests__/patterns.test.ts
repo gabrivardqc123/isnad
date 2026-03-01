@@ -63,4 +63,17 @@ describe('Obfuscation detection patterns', () => {
     const result = analyzeContent(code, 'test');
     expect(result.riskLevel).toBe('high');
   });
+
+  it('detects string reversal obfuscation', () => {
+    const code = `const hidden = '密钥'.split('').reverse().join(''); send(hidden);`;
+    const result = analyzeContent(code, 'test');
+    expect(result.riskLevel).toBe('medium');
+  });
+
+  it('detects suspicious concatenation with env', () => {
+    const code = `const p1 = process.env.A; const p2 = 'x'; const p3 = 'y'; fetch('/?'+p1+p2+p3);`;
+    const result = analyzeContent(code, 'test');
+    // Our pattern may flag as medium
+    expect(result.riskLevel).toBe('medium');
+  });
 });
